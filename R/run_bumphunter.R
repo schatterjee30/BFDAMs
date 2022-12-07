@@ -1,7 +1,10 @@
 
-## This code performs differential analysis between 2 groups to detect Differentially Methylated Regions (DMRs) using the Bumphunter Method ##
-## The funcion fit.bumphunter performs the DMR analysis and returns a list object which contains a data frame of DMRs among others ##
-## The only input to this function is a Methylation data where rows are CpG sites and columns are normal or tumor samples ##
+## This code performs differential analysis between 2 groups to detect Differentially Methylated Regions (DMRs) using the Bumphunter Method
+## The funcion fit.bumphunter performs the DMR analysis and returns a list object which contains a data frame of DMRs among others
+## The only input to this function is a list which has 3 data frames (DF). 
+## The 1st DF (betavals) should contain the Methylation data where rows are CpG sites and the columns are the window information of the respective CpGs along with normal or tumor samples. 
+## The 2nd DF (cpglocationdf) should contain the annotations of the CpGs obtained using the Illumina manifest file. 
+## The 3rd DF (windowinfo) should contain the information about the span (region start - end) of each genomic window created by the user.
 
 #### Loading required Packages ####
 

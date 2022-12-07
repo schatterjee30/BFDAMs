@@ -31,7 +31,6 @@ fit.dmrcate = function(x){
   location = x$cpglocationdf
   clust.locations = x$windowinfo
   data.raw = bvals[, !names(bvals) %in% c('windows')]
-  #data.raw = as.matrix(logit2(data.raw))
   
   #### Configuring group labels ####
   

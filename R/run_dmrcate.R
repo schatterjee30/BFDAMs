@@ -1,4 +1,8 @@
 
+## This code differential analysis between 2 groups to detect Differentially Methylated Regions (DMRs) using the DMRcate Method ##
+## The funcion fit.bumphunter performs the DMR analysis and returns a list object which contains a data frame of DMRs among others ##
+## The only input to this function is a Methylation data where rows are CpG sites and columns are normal or tumor samples ##
+
 #### Loading required Packages ####
 
 if(! require("DMRcate")) {

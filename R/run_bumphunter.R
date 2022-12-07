@@ -1,4 +1,8 @@
 
+## This code differential analysis between 2 groups to detect Differentially Methylated Regions (DMRs) using the Bumphunter Method ##
+## The funcion fit.bumphunter performs the DMR analysis and returns a list object which contains a data frame of DMRs among others ##
+## The only input to this function is a Methylation data where rows are CpG sites and columns are normal or tumor samples ##
+
 #### Loading required Packages ####
 
 if(! require("bumphunter")) {
@@ -29,7 +33,6 @@ fit.bumphunter = function(x){
   location = x$cpglocationdf
   clust.locations = x$windowinfo
   data.raw = bvals[, !names(bvals) %in% c('windows')]
-  #data.raw = as.matrix(logit2(data.raw))
   
   #### Configuring group labels ####
   

@@ -1,4 +1,8 @@
 
+## This code differential analysis between 2 groups to detect Differentially Methylated Regions (DMRs) using the Comb-P Method ##
+## The funcion fit.bumphunter performs the DMR analysis and returns a list object which contains a data frame of DMRs among others ##
+## The only input to this function is a Methylation data where rows are CpG sites and columns are normal or tumor samples ##
+
 #### Loading required Packages ####
 
 if(! require("ENmix")) {
@@ -26,7 +30,7 @@ fit.combp = function(x){
   
   #### Input Data ####
   
-  dir = "D:/research/Biometrics_revision/simulation/Chatterjee_2022BFDA"  
+  dir = "/Path/to where/you want/the results to be stored"  
   setwd(paste(dir, "outputs", sep = '/'))
   treat.lab = 'Tumor'
   control.lab = 'Normal'
@@ -70,7 +74,7 @@ fit.combp = function(x){
   
   #### Reading in Output ####
   
-  tmp = read.csv(paste(dir, "outputs", 'resu_combp.csv', sep = '/'))
+  tmp = read.csv(paste("/Path/to where/you stored the results", 'resu_combp.csv', sep = '/'))
   if(!is.null(fit)){
     tmp$dmr.pval = tmp$sidak
     tmp$dmr.chr = tmp$chr

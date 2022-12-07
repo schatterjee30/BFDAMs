@@ -39,7 +39,6 @@ fit.combp = function(x){
   location = x$cpglocationdf
   clust.locations = x$windowinfo
   data.raw = as.matrix(bvals[, !names(bvals) %in% c('windows')])
-  #data.raw = as.matrix(logit2(data.raw))
   
   #### Configuring group labels ####
   

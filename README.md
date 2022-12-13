@@ -70,7 +70,6 @@ The 3rd DF (windowinfo) should contain the information about the span (region st
 | predicted | The predicted status of each region using our models. Each window/region can be predicted as either DMR or Non-DMR.
 | time.min | The time taken in minutes to model the windows/regions.
 
-
 ```
 
 

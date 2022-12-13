@@ -1,0 +1,54 @@
+
+#### Plotting Figure 1 ####
+
+
+load simdata5
+
+nsim = simdata.design.nsim;
+nw   = simdata.design.nw;
+nt   = simdata.design.nt;
+nca  = simdata.design.nca;
+nco  = simdata.design.nco;
+tt   = simdata.design.tt;
+
+ft = simdata.mean.ft;
+gt = simdata.mean.gt;
+
+fti = simdata.sim(1).fti;
+gti = simdata.sim(1).gti;
+
+yi = simdata.sim(1).yi;
+wi = simdata.sim(1).wi;
+
+figure,hold on
+sub_plot(2,nw/2,'Gap',[0.03 0.06])
+for k=1:nw
+    sub_plot(k);
+    plot(tt,ft(:,k),'b:','linewidth',2)
+    ylim([0,1])
+end
+for k=1:nw
+    sub_plot(k);
+    plot(tt,gt(:,k),'r:','linewidth',2)
+    ylim([0,1])
+end
+
+for k=1:nw
+    sub_plot(k)
+    plot(tt,fti(:,k,1),'b','linewidth',1)
+end
+for k=1:nw
+    sub_plot(k)
+    plot(tt,gti(:,k,1),'r','linewidth',1)
+end
+
+for k=1:nw
+    sub_plot(k)
+    plot(tt,yi(:,k,1),'co','markersize',3)
+end
+for k=1:nw
+    sub_plot(k)
+    plot(tt,wi(:,k,1),'mx','markersize',5)
+end
+
+save_plot('eps',1,[.1 3],'sim5'); % dual margin (left=2, bottom=.3)

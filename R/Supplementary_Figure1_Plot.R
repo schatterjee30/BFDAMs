@@ -23,4 +23,3 @@ g0<-ggplot(data = df0, aes(x=windows, y=bf, fill=windows)) +
 
 g<-ggarrange(g0, g1, g2, g3, ncol = 2, nrow = 2, common.legend = TRUE) + theme_bw() + theme(axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),axis.text.x = element_blank(), axis.text.y = element_blank(),panel.grid.major = element_blank(),panel.grid.minor = element_blank()) + theme(legend.position = "none")
 annotate_figure(g,top = text_grob("Distribution of number of bumps", color = "black", face = "bold", size = 20))
-

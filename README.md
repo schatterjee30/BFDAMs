@@ -42,9 +42,7 @@ Ex: fit = BFDAM2(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', 
 
 | Parameter                 | Default       | Description   |	
 | :------------------------ |:-------------:| :-------------|
-| x	       |	           | A list which has 3 data frames (DF). The 1st DF (betavals) should contain the methylation data where rows are CpG sites and the columns are the methylation values from Group1 and Group2 samples. Note: The 1st column of this DF should be a column called 'windows' that should contain the information about each CpG site and to which window number it was assigned.
-The 2nd DF (cpglocationdf) should contain the annotations of the CpGs obtained using the Illumina manifest file. 
-The 3rd DF (windowinfo) should contain the information about the span (region start - end) of each genomic window created by the user.
+| x	       |	           | A list which has 3 data frames (DF). The 1st DF (betavals) should contain the methylation data where rows are CpG sites and the columns are the methylation values from Group1 and Group2 samples. Note: The 1st column of this DF should be a column called 'windows' that should contain the information about each CpG site and to which window number it was assigned. The 2nd DF (cpglocationdf) should contain the annotations of the CpGs obtained using the Illumina manifest file. The 3rd DF (windowinfo) should contain the information about the span (region start - end) of each genomic window created by the user.
 | iter |      20000       | Number of MCMC iterations to be run
 | burn |      1000       | Number of burn-ins
 | seed |      1234       | A random number for reproducibilty of results

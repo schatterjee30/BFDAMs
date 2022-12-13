@@ -27,9 +27,9 @@ contains the files and results from our analysis that will be taken in as input 
 ## Usage
 
 ```
-BFDAM1: This is one of our proposed function which fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are independent of each other while accounting for dependency of observations inside a particular window/region. 
+BFDAM1: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are independent of each other while accounting for dependency of observations inside a particular window/region. 
 
-BFDAM2: This is one of our proposed function which fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are dependent of each other as well as accounting for dependency of observations inside a particular window/region.
+BFDAM2: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are dependent of each other as well as accounting for dependency of observations inside a particular window/region.
 
 ```
 
@@ -40,7 +40,7 @@ BFDAM2: This is one of our proposed function which fits a Bayesian functional da
 Both our proposed functions BFDAM1 and BFDAM2 have the same set of arguments. These functions have 6 arguments. For example, to run the functions under their default settings the user can use the following:
 Ex: fit = BFDAM1(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
 Ex: fit = BFDAM2(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
-The table below details the required arguments:
+### The table below details the required arguments:
 | Parameter                 | Default       | Description   |	
 | :------------------------ |:-------------:| :-------------|
 | x	       |	           | A list which has 3 data frames (DF). 
@@ -58,7 +58,7 @@ The 3rd DF (windowinfo) should contain the information about the span (region st
 ## Values
 
 ```
-Both our proposed functions BFDAM1 and BFDAM2 return a data frame with the following values summarized in the table below.
+### Both our proposed functions BFDAM1 and BFDAM2 return a data frame with the following values summarized in the table below.
 
 | Object       | Description   |
 | :------------------------ | :-------------|

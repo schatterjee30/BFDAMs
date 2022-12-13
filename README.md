@@ -61,10 +61,10 @@ Ex: fit = BFDAM2(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', 
 | :------------------------ | :-------------|
 | Method | Name of the method used among our 2 variants BFDAM1 or BFDAM2
 | len.agg | Length of the user defined regions the model were run
-| M1_Bayes | The Bayes factor values under model 1(No differential expression) for each window/region modeled
-| M2_Bayes | The Bayes factor values under model 2(Differential expression) for each window/region modeled
-| logBayes | The Log Bayes factor values obtained for each window/region modeled
-| predicted | The predicted status of each region using our models. Each window/region can be predicted as either DMR or Non-DMR.
+| M1_Bayes | The log marginal likelihood values under model 1 (No differential expression) for each window/region modeled
+| M2_Bayes | The log marginal likelihood values under model 2 (Differential expression) for each window/region modeled
+| logBayes | The Log Bayes factor values obtained from the ratio of M1_Bayes and M2_Bayes for each window/region modeled
+| predicted | The predicted differential status for each region. Each window/region can be predicted as either a DMR or Non-DMR.
 | time.min | The time taken in minutes to model the windows/regions.
 
 ## Contributions

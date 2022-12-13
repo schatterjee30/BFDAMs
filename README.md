@@ -5,8 +5,6 @@
 ## Cotents
 - [Overview](#Overview)
 - [Usage](#Usage)
-- [Arguments](#Arguments)
-- [Value](#Value)
 - [Examples](#Examples)
 - [Contributions](#contributions)
 
@@ -23,5 +21,15 @@ contains subset of two real data used in this study. Data1:  To download the ful
 Man: 
 contains the files and results from our analysis that will be taken in as input by few functions in the R filder for replicating the simulation and real data results along with the figures in the manuscript.
 ```
+
+## Usage
+
+```
+BFDAM1: This is one of our proposed function which fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are independent of each other while accounting for dependency of observations inside a particular window/region. 
+
+BFDAM2: This functions fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are dependent of each other as well as accounting for dependency of observations inside a particular window/region.
+
+```
+
 
 

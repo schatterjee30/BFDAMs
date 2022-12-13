@@ -27,9 +27,9 @@ contains the files and results from our analysis that will be taken in as input 
 ## Usage
 
 ```
-BFDAM1: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are independent of each other while accounting for dependency of observations inside a particular window/region. 
+BFDAM1: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are independent to each other while accounting for dependency of observations inside a particular window/region. 
 
-BFDAM2: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are dependent of each other as well as accounting for dependency of observations inside a particular window/region.
+BFDAM2: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are dependent to each other as well as accounting for dependency of observations inside a particular window/region.
 
 ```
 

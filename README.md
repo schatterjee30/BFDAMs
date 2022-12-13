@@ -35,8 +35,6 @@ BFDAM2: This function fits a Bayesian functional data analysis model by assuming
 
 ## Arguments
 
-```
-
 Both functions BFDAM1 and BFDAM2 have the same set of arguments. These functions have 6 arguments. For example, to run the functions under their default settings the user can use the following:
 Ex: fit = BFDAM1(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
 Ex: fit = BFDAM2(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
@@ -54,11 +52,9 @@ The 3rd DF (windowinfo) should contain the information about the span (region st
 | grplab1 |      'Normal'       | Label for group 1 in methylation data frame/matrix
 | grplab2 |      'Tumor'       | Label for group 2 in methylation data frame/matrix
 
-```
 
 ## Values
 
-```
 ### Both the functions BFDAM1 and BFDAM2 will return a data frame with the following values summarized in the table below.
 
 | Object       | Description   |
@@ -71,7 +67,6 @@ The 3rd DF (windowinfo) should contain the information about the span (region st
 | predicted | The predicted status of each region using our models. Each window/region can be predicted as either DMR or Non-DMR.
 | time.min | The time taken in minutes to model the windows/regions.
 
-```
 
 
 

@@ -35,9 +35,12 @@ BFDAM2: This function fits a Bayesian functional data analysis model by assuming
 
 ## Arguments
 
-Both functions BFDAM1 and BFDAM2 have the same set of arguments. These functions have 6 arguments. For example, to run the functions under their default settings the user can use the following:
+Both functions BFDAM1 and BFDAM2 have the same set of arguments. These functions have 6 arguments. For example, to run the functions under their default settings the user can use the following;
+
 Ex: fit = BFDAM1(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
+
 Ex: fit = BFDAM2(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
+
 ### The table below details the required arguments:
 
 | Parameter                 | Default       | Description   |	

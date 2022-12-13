@@ -12,7 +12,7 @@ for(i in 1:length(c$windows)){
   l=0
   for(j in 1:length(fit_df$chr)){
     if(fit_df$start[j] > c$start[i] & fit_df$end[j] < c$end[i]){
-      l=l+1
+        l=l+1
     }
   }
   if(l > 20){

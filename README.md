@@ -37,7 +37,7 @@ BFDAM2: This function fits a Bayesian functional data analysis model by assuming
 
 ```
 
-Both our proposed functions BFDAM1 and BFDAM2 have the same set of arguments. These functions have 6 arguments. For example, to run the functions under their default settings the user can use the following:
+Both functions BFDAM1 and BFDAM2 have the same set of arguments. These functions have 6 arguments. For example, to run the functions under their default settings the user can use the following:
 Ex: fit = BFDAM1(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
 Ex: fit = BFDAM2(x, iter = 20000, burn = 1000, seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor')
 ###The table below details the required arguments:
@@ -58,7 +58,7 @@ The 3rd DF (windowinfo) should contain the information about the span (region st
 ## Values
 
 ```
-### Both our proposed functions BFDAM1 and BFDAM2 return a data frame with the following values summarized in the table below.
+### Both the functions BFDAM1 and BFDAM2 will return a data frame with the following values summarized in the table below.
 
 | Object       | Description   |
 | :------------------------ | :-------------|
@@ -66,7 +66,7 @@ The 3rd DF (windowinfo) should contain the information about the span (region st
 | len.agg | Length of the user defined regions the model were run
 | M1_Bayes | The Bayes factor values under model 1(No differential expression) for each window/region modeled
 | M2_Bayes | The Bayes factor values under model 2(Differential expression) for each window/region modeled
-| logBayes | The Log Bayes factor values obtained from the ratio of M1_Bayes/M2_Bayes for each window/region modeled
+| logBayes | The Log Bayes factor values obtained for each window/region modeled
 | predicted | The predicted status of each region using our models. Each window/region can be predicted as either DMR or Non-DMR.
 | time.min | The time taken in minutes to model the windows/regions.
 

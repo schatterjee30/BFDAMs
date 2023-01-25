@@ -20,6 +20,8 @@ contains the R scripts for replicating the simulation and real data results alon
 Data: 
 contains subset of two real data used in this study. Data1 (TCGA lung adenocarcinoma data):  To download the full data please click on this link [here](https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing).
 
+Data2: The full data can be found GEO website with the accession number 'GSE66836' https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing
+
 Man: 
 contains the files and results from our analysis that will be taken in as input by few functions in the R folder for replicating the simulation and real data results along with the figures in the manuscript.
 ```

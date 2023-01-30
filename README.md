@@ -14,27 +14,25 @@
 
 This repository contains 3 folders. 
 
-R: 
+***R***:
 contains the R scripts for replicating the simulation and real data results along with the figures in the manuscript.
 
-Data: 
+***Data***: 
 Contains subset of two real data used in this study. 
 
-Data1: (TCGA lung adenocarcinoma data):  To download the full data please click on this [link](https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing).
+***Data1***: (TCGA lung adenocarcinoma data):  To download the full data please click on this [link](https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing).
 
-Data2: The full data can be found GEO website with the accession number 'GSE66836' https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing
+***Data2***: The full data can be found GEO website with the accession number 'GSE66836' https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing
 
-Man: 
+***Man***: 
 contains the files and results from our analysis that will be taken in as input by few functions in the R folder for replicating the simulation and real data results along with the figures in the manuscript.
 
 ## Usage
 
-```
 BFDAM1: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are independent to each other while accounting for dependency of observations inside a particular window/region. 
 
 BFDAM2: This function fits a Bayesian functional data analysis model by assuming the contiguous sequence of windows/regions are dependent to each other as well as accounting for dependency of observations inside a particular window/region.
 
-```
 
 ## Arguments
 

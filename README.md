@@ -17,12 +17,10 @@ This repository contains 3 folders.
 ***R***:
 contains the R scripts for replicating the simulation and real data results along with the figures in the manuscript.
 
-***Data***: 
-Contains subset of two real data used in this study. 
+***Example_Data***: 
+Contains subset of a published real data used in this study. To download the full version of this GEO data (accession number: 'GSE66836') please use this [link] (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE66836)
 
-***Data1***: (TCGA lung adenocarcinoma data):  To download the full data please click on this [link](https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing).
-
-***Data2***: The full data can be found GEO website with the accession number 'GSE66836' on this [link] (https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing).
+Also, please note, to download the full data used in our real data analysis please use this [link] (https://drive.google.com/drive/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD?usp=sharing).
 
 ***Man***: 
 contains the files and results from our analysis that will be taken in as input by few functions in the R folder for replicating the simulation and real data results along with the figures in the manuscript.

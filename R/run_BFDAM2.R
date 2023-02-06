@@ -1,40 +1,61 @@
 
-# x = A list which has 3 data frames (DF). 
-# The 1st DF (betavals) should contain the methylation data where rows are CpG sites and the columns are the methylation values from Group1 and Group2 samples. Note: The 1st column of this DF should be a column called 'windows' that should contain the information about each CpG site and to which window number it was assigned.
-# The 2nd DF (cpglocationdf) should contain the annotations of the CpGs obtained using the Illumina manifest file. 
-# The 3rd DF (windowinfo) should contain the information about the span (region start - end) of each genomic window created by the user.
 # iter = Number of MCMC iterations to be run
 # burn = Number of burn-ins
 # seed = A random number for reproducibilty of results
-# grplab1 = Label for group 1 in methylation data frame/matrix
-# grplab2 = Label for group 2 in methylation data frame/matrix
+# grplab1 = Label for group 1 in methylation data frame(beta.df)
+# grplab2 = Label for group 2 in methylation data frame(beta.df)
 
-fit.BFDAM2 = function(x, iter = 20000,
-                      burn = 1000, seed = 1234,
-                      grplab1 = 'Normal', grplab2 = 'Tumor'){
+#### Required Libraries ####
+
+library(readr)
+
+#### The BFDAM2 Function ####
+
+fit.BFDAM2 = function(beta.df, chr.pos, nCpGs = 100, iter = 20000, burn = 1000, 
+                      seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor'){
+  
   set.seed(seed)
-  control.lab = grplab1
-  treat.lab = grplab2
-  ptm.start = proc.time()
-  bvals = x$betavals
-  location = x$cpglocationdf
-  clust.locations = x$windowinfo
-  nwin<- length(unique(bvals$windows))
-  data<- bvals
-  datsub=data[data$window==1,]
-  cols=ncol(datsub)
-  n=nrow(datsub)
-  x1=c(1:n)
-  yall=datsub[,2:cols]
+  ptm.start<-proc.time()
+  
+  #### Organizing Input Data ####
+  
+  beta.df<-beta.df[!duplicated(rownames(beta.df)),]
+  chr.pos<-chr.pos[!duplicated(rownames(chr.pos)),]
+  beta.df<-beta.df[rownames(beta.df) %in% rownames(chr.pos),]
+  if(is.character(chr.pos$chr)){
+    chr.pos$chr<-readr::parse_number(chr.pos$chr)
+  }
+  if(is.character(chr.pos$pos)){
+    chr.pos$pos<-as.numeric(chr.pos$pos)
+  }
+  
+  #### Assigning Equally Spaced and Sized Windows ####
+  
+  split.chrpos<-split(chr.pos, chr.pos$chr)
+  chrpos.win<-lapply(split.chrpos, function(x){
+    nCpGs<-100
+    x$windows<-rep(seq_len(nrow(x)%/%nCpGs+1L),each=nCpGs,len=nrow(x))
+    return(x)
+  })
+  
+  # data<-beta.df
+  # location<-location.df
+  # clust.locations<-window.df
+  # nwin<-length(unique(bvals$windows))
+  # datsub<-data[data$window == 1,]
+  # cols<-ncol(datsub)
+  # n<-nrow(datsub)
+  # x1<-c(1:n)
+  # yall<-datsub[, 2:cols]
   
   #### Log-Transforming Methylation data ####
   
-  yall<- as.matrix(logit2(yall))
+  yall = as.matrix(logit2(yall))
   
   #### Separating Normal and Cancer groups data ####
   
-  ynorm=yall[,grep(control.lab,names(yall))]
-  ycanc=yall[,grep(treat.lab,names(yall))]
+  ynorm<-yall[,grep(grplab1,names(yall))]
+  ycanc<-yall[,grep(grplab2,names(yall))]
   
   #### Combined group mean fitting ####
   

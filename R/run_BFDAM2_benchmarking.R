@@ -8,10 +8,13 @@
 #### Required Libraries ####
 
 library(readr)
+library(minfi)
+library(ggplot2)
+library(reshape)
 
 #### The BFDAM2 Function ####
 
-fit.BFDAM2 = function(beta.df, chr.pos, nCpGs = 100, iter = 20000, burn = 1000, 
+fit.BFDAM2 = function(beta.df, chr.pos, nCpGs = 100, iter = 1000, burn = 100, 
                       seed = 1234, grplab1 = 'Normal', grplab2 = 'Tumor'){
   
   set.seed(seed)
@@ -33,172 +36,212 @@ fit.BFDAM2 = function(beta.df, chr.pos, nCpGs = 100, iter = 20000, burn = 1000,
   
   split.chrpos<-split(chr.pos, chr.pos$chr)
   chrpos.win<-lapply(split.chrpos, function(x){
-    nCpGs<-100
     x$windows<-rep(seq_len(nrow(x)%/%nCpGs+1L),each=nCpGs,len=nrow(x))
     return(x)
   })
   
-  # data<-beta.df
-  # location<-location.df
-  # clust.locations<-window.df
-  # nwin<-length(unique(bvals$windows))
-  # datsub<-data[data$window == 1,]
-  # cols<-ncol(datsub)
-  # n<-nrow(datsub)
-  # x1<-c(1:n)
-  # yall<-datsub[, 2:cols]
+  #### Looping over chromosomes and fitting model ####
   
-  #### Log-Transforming Methylation data ####
-  
-  yall = as.matrix(logit2(yall))
-  
-  #### Separating Normal and Cancer groups data ####
-  
-  ynorm<-yall[,grep(grplab1,names(yall))]
-  ycanc<-yall[,grep(grplab2,names(yall))]
-  
-  #### Combined group mean fitting ####
-  
-  gm_all<-rep(0,n)
-  gm_all<- apply(yall,1,mean)
-  fitg <- ncs(x1,gm_all,burn,iter)
-  overall_mean_fit<-fitg$fhat
-  overall_sigma_fit<-fitg$sig2
-  overall_tau_fit<-fitg$tau
-  lambda_overall<-cbind(overall_tau_fit, overall_sigma_fit)
-  
-  #### Normal group mean fitting ####
-  
-  gm_norm<-rep(0,n)
-  gm_norm<- apply(ynorm,1,mean)
-  fitgnorm <- ncs(x1,gm_norm,burn,iter)
-  norm_mean_fit<-fitgnorm$fhat
-  norm_sigma_fit<-fitgnorm$sig2
-  norm_tau_fit<-fitg$tau
-  lambda_norm<-cbind(norm_tau_fit, norm_sigma_fit)
-  
-  #### Cancer group mean fitting ####
-  
-  gm_canc<-rep(0,n)
-  gm_canc<- apply(ycanc,1,mean)
-  fitgcanc <- ncs(x1,gm_canc,burn,iter)
-  canc_mean_fit<-fitgcanc$fhat
-  canc_sigma_fit<-fitgcanc$sig2
-  canc_tau_fit<-fitg$tau
-  lambda_canc<-cbind(canc_tau_fit, canc_sigma_fit)
-  
-  #### Creating Sigma Matrix Combined group ####
-  
-  sig2.mat_mod<- matrix(0,iter,dim(yall)[2])
-  sig_over_mat<- matrix(0,iter,dim(yall)[2]*n)
-  sdj<- apply(yall, 2, var)
-  for(i in 1:iter)
-  {
-    for(j in 1:dim(yall)[2])
+  for(i in 1:length(chrpos.win)){
+    run.chrpos<-chrpos.win[[i]]
+    win.chrpos<-run.chrpos[run.chrpos$windows == 1,]
+    win.beta<-beta.df[rownames(beta.df) %in% rownames(win.chrpos),]
+    
+    #### Logit-Transforming Beta values ####
+    
+    yall<-data.frame(logit2(win.beta))
+    
+    #### Separating Normal and Cancer groups data ####
+    
+    ynorm<-yall[,grep(grplab1,names(yall))]
+    ycanc<-yall[,grep(grplab2,names(yall))]
+    
+    #### Combined group mean fitting ####
+    
+    n<-nrow(yall)
+    des.pts<-c(1:n)
+    gm_all<-rep(0,n)
+    gm_all<- apply(yall,1,meanfn)
+    fitg <- ncs(x=des.pts,y=gm_all,burn,iter)
+    overall_mean_fit<-fitg$fhat
+    overall_sigma_fit<-fitg$sig2
+    overall_tau_fit<-fitg$tau
+    lambda_overall<-cbind(overall_tau_fit, overall_sigma_fit)
+    
+    #### Normal group mean fitting ####
+    
+    gm_norm<-rep(0,n)
+    gm_norm<-apply(ynorm,1,meanfn)
+    fitgnorm<-ncs(x=des.pts,y=gm_norm,burn,iter)
+    norm_mean_fit<-fitgnorm$fhat
+    norm_sigma_fit<-fitgnorm$sig2
+    norm_tau_fit<-fitg$tau
+    lambda_norm<-cbind(norm_tau_fit, norm_sigma_fit)
+    
+    #### Cancer group mean fitting ####
+    
+    gm_canc<-rep(0,n)
+    gm_canc<-apply(ycanc,1,meanfn)
+    fitgcanc<-ncs(x=des.pts,y=gm_canc,burn,iter)
+    canc_mean_fit<-fitgcanc$fhat
+    canc_sigma_fit<-fitgcanc$sig2
+    canc_tau_fit<-fitg$tau
+    lambda_canc<-cbind(canc_tau_fit, canc_sigma_fit)
+    
+    #### Plotting Fitted Curves ####
+    
+    normfit<-apply(norm_mean_fit,2,mean)
+    cancfit<-apply(canc_mean_fit,2,mean)
+    CpG.Site<-c(1:nCpGs)
+    pdata<-data.frame(CpG.Site=CpG.Site,Mean.Methylation=gm_all, fit.normal=normfit,fit.cancer=cancfit)
+    colors<-c("fit.normal" = "blue", "fit.cancer" = "red")
+    p<-ggplot(pdata, aes(x=CpG.Site)) + 
+      geom_point(aes(y = Mean.Methylation), color = "green") +
+      geom_smooth(aes(y = fit.normal), color = "blue", se=FALSE) + 
+      geom_smooth(aes(y = fit.cancer), color="red", se=FALSE) + 
+      theme_bw() + 
+      labs(color = "Legend") +
+      scale_color_manual(values = colors) +
+      scale_x_continuous("CpG.Site") + 
+      scale_y_continuous("Mean.Methylation(M-values)")
+    
+    #### Creating Sigma Matrix Combined group ####
+    
+    sig2.mat_mod<- matrix(0,iter,dim(yall)[2])
+    sig_over_mat<- matrix(0,iter,dim(yall)[2]*n)
+    sdj<- apply(yall, 2, var)
+    for(i in 1:iter)
     {
-      sig2.mat_mod[i,j]<- sdj[j] + overall_sigma_fit[i]
+      for(j in 1:dim(yall)[2])
+      {
+        sig2.mat_mod[i,j]<- sdj[j] + overall_sigma_fit[i]
+      }
     }
-  }
-  for(i in 1:iter)
-  {
-    sig_over_mat[i,]=rep(sig2.mat_mod[i,],each=n)
-  }
-  
-  #### Creating Sigma Matrix Normal group ####
-  
-  sig2.matnorm_mod<- matrix(0,iter,dim(ynorm)[2])
-  sig_norm_mat<- matrix(0,iter,dim(ynorm)[2]*n)
-  sdj.norm<- apply(ynorm,2,var)
-  for(i in 1:iter)
-  {
-    for(j in 1:dim(ynorm)[2])
+    for(i in 1:iter)
     {
-      sig2.matnorm_mod[i,j]<- sdj.norm[j] + norm_sigma_fit[i]
+      sig_over_mat[i,]=rep(sig2.mat_mod[i,],each=n)
     }
-  }
-  for(i in 1:iter)
-  {
-    sig_norm_mat[i,]=rep(sig2.matnorm_mod[i,],each=n)
-  }
-  
-  #### Creating Sigma Matrix Cancer group ####
-  
-  sig2.matcanc_mod<- matrix(0,iter,dim(ycanc)[2])
-  sig_canc_mat<- matrix(0,iter,dim(ycanc)[2]*n)
-  sdj.canc<- apply(ycanc,2,var)
-  for(i in 1:iter)
-  {
-    for(j in 1:dim(ycanc)[2])
+    
+    #### Creating Sigma Matrix Normal group ####
+    
+    sig2.matnorm_mod<- matrix(0,iter,dim(ynorm)[2])
+    sig_norm_mat<- matrix(0,iter,dim(ynorm)[2]*n)
+    sdj.norm<- apply(ynorm,2,var)
+    for(i in 1:iter)
     {
-      sig2.matcanc_mod[i,j]<- sdj.canc[j] + canc_sigma_fit[i]
+      for(j in 1:dim(ynorm)[2])
+      {
+        sig2.matnorm_mod[i,j]<- sdj.norm[j] + norm_sigma_fit[i]
+      }
+    }
+    for(i in 1:iter)
+    {
+      sig_norm_mat[i,]=rep(sig2.matnorm_mod[i,],each=n)
+    }
+    
+    #### Creating Sigma Matrix Cancer group ####
+    
+    sig2.matcanc_mod<- matrix(0,iter,dim(ycanc)[2])
+    sig_canc_mat<- matrix(0,iter,dim(ycanc)[2]*n)
+    sdj.canc<- apply(ycanc,2,var)
+    for(i in 1:iter)
+    {
+      for(j in 1:dim(ycanc)[2])
+      {
+        sig2.matcanc_mod[i,j]<- sdj.canc[j] + canc_sigma_fit[i]
+      }
+    }
+    for(i in 1:iter)
+    {
+      sig_canc_mat[i,]=rep(sig2.matcanc_mod[i,],each=n)
+    }
+    
+    #### Calculating Marginal Likelihood Overall ####
+    
+    mean.matall<- t(apply(overall_mean_fit,1,function(x) rep(x,dim(yall)[2])))
+    lik_overall<-matrix(0,iter,dim(yall)[2]*n)
+    sum_lik_overall<-rep(0,iter)
+    for(l in 1:iter){
+      for(k in 1:n){
+        m<- mean.matall[l,k]
+        s<- sqrt(sig_over_mat[l,k])
+        lik_overall[l,k]<- log(dnorm(gm_all[k],m,s))
+      }
+      sum_lik_overall[l]<-sum(lik_overall[l,])
+    }
+    marginal_lik_overall<-mean(sum_lik_overall)
+    
+    #### Calculating Marginal Likelihood Normal group ####
+    
+    mean.matnorm<- t(apply(norm_mean_fit,1,function(x) rep(x,dim(ynorm)[2])))
+    lik_norm<-matrix(0,iter,dim(ynorm)[2]*n)
+    sum_lik_norm<-rep(0,iter)
+    for(l in 1:iter){
+      for(k in 1:n){
+        m<- mean.matnorm[l,k]
+        s<- sqrt(sig_norm_mat[l,k])
+        lik_norm[l,k]<- log(dnorm(gm_norm[k],m,s))
+      }
+      sum_lik_norm[l]<-sum(lik_norm[l,])
+    }
+    marginal_lik_norm<- mean(sum_lik_norm)
+    
+    #### Calculating Marginal Likelihood Cancer group ####
+    
+    mean.matcanc<- t(apply(canc_mean_fit,1,function(x) rep(x,dim(ycanc)[2])))
+    lik_canc<-matrix(0,iter,dim(ycanc)[2]*n)
+    sum_lik_canc<-rep(0,iter)
+    for(l in 1:iter){
+      for(k in 1:n){
+        m<-mean.matcanc[l,k]
+        s<-sqrt(sig_canc_mat[l,k])
+        lik_canc[l,k]<-log(dnorm(gm_canc[k],m,s))
+      }
+      sum_lik_canc[l]<-sum(lik_canc[l,])
+    }
+    marginal_lik_canc<- mean(sum_lik_canc)
+    
+    #### Calculating Log Bayes Factors ####
+    
+    M1_bayes<-marginal_lik_overall
+    M2_bayes<-marginal_lik_canc+marginal_lik_norm
+    logbayesfactor<-M1_bayes-M2_bayes
+    ptm.end<- proc.time()
+    time.taken<- (ptm.end - ptm.start)[3]/60
+    
+    #### Summarizing output and projection particles ####
+    
+    results.indep<-data.frame(Window=1,
+                              M1_bayes=M1_bayes,
+                              M2_bayes=M2_bayes,
+                              logbayesfactor=logbayesfactor,
+                              time.min = time.taken)
+    results.pass<-list(lambda_overall=lambda_overall,lambda_norm=lambda_norm,lambda_canc=lambda_canc)
+    
+    #### Fitting over all Dependent windows except Window 1 ####
+    
+    for(j in 2:length(unique(run.chrpos$windows))){
+      win.chrpos<-run.chrpos[run.chrpos$windows == j,]
+      win.beta<-beta.df[rownames(beta.df) %in% rownames(win.chrpos),]
+      
+      #### Logit-Transforming Beta values ####
+      
+      yall<-as.matrix(logit2(win.beta))
+      
+      #### Separating Normal and Cancer groups data ####
+      
+      ynorm<-yall[,grep(grplab1,names(yall))]
+      ycanc<-yall[,grep(grplab2,names(yall))]
     }
   }
-  for(i in 1:iter)
-  {
-    sig_canc_mat[i,]=rep(sig2.matcanc_mod[i,],each=n)
-  }
   
-  #### Calculating Marginal Likelihood Overall ####
+ 
   
-  mean.matall<- t(apply(overall_mean_fit,1,function(x) rep(x,dim(yall)[2])))
-  lik_overall<-matrix(0,iter,dim(yall)[2]*n)
-  sum_lik_overall<-rep(0,iter)
-  for(l in 1:iter){
-    for(k in 1:n){
-      m<- mean.matall[l,k]
-      s<- sqrt(sig_over_mat[l,k])
-      lik_overall[l,k]<- log(dnorm(gm_all[k],m,s))
-    }
-    sum_lik_overall[l]<-sum(lik_overall[l,])
-  }
-  marginal_lik_overall<-mean(sum_lik_overall)
   
-  #### Calculating Marginal Likelihood Normal group ####
   
-  mean.matnorm<- t(apply(norm_mean_fit,1,function(x) rep(x,dim(ynorm)[2])))
-  lik_norm<-matrix(0,iter,dim(ynorm)[2]*n)
-  sum_lik_norm<-rep(0,iter)
-  for(l in 1:iter){
-    for(k in 1:n){
-      m<- mean.matnorm[l,k]
-      s<- sqrt(sig_norm_mat[l,k])
-      lik_norm[l,k]<- log(dnorm(gm_norm[k],m,s))
-    }
-    sum_lik_norm[l]<-sum(lik_norm[l,])
-  }
-  marginal_lik_norm<- mean(sum_lik_norm)
   
-  #### Calculating Marginal Likelihood Cancer group ####
   
-  mean.matcanc<- t(apply(canc_mean_fit,1,function(x) rep(x,dim(ycanc)[2])))
-  lik_canc<-matrix(0,iter,dim(ycanc)[2]*n)
-  sum_lik_canc<-rep(0,iter)
-  for(l in 1:iter){
-    for(k in 1:n){
-      m<-mean.matcanc[l,k]
-      s<-sqrt(sig_canc_mat[l,k])
-      lik_canc[l,k]<-log(dnorm(gm_canc[k],m,s))
-    }
-    sum_lik_canc[l]<-sum(lik_canc[l,])
-  }
-  marginal_lik_canc<- mean(sum_lik_canc)
   
-  #### Calculating Log Bayes Factors ####
-  
-  M1_bayes<-marginal_lik_overall
-  M2_bayes<-marginal_lik_canc+marginal_lik_norm
-  logbayesfactor<-M1_bayes-M2_bayes
-  ptm.end<- proc.time()
-  time.taken<- (ptm.end - ptm.start)[3]/60
-  
-  #### Summarizing output and projection particles ####
-  
-  results.indep<-data.frame(Window=1,
-                            M1_bayes=M1_bayes,
-                            M2_bayes=M2_bayes,
-                            logbayesfactor=logbayesfactor,
-                            time.min = time.taken)
-  results.pass<-list(lambda_overall=lambda_overall,lambda_norm=lambda_norm,lambda_canc=lambda_canc)
   
   #### Dependent Regions modeling ####
   

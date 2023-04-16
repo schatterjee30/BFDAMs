@@ -3,7 +3,7 @@
 
 # Methodological Pipeline
 
-![alt text](https://github.com/[schatterjee30]/[BFDAMs]/blob/[main]/image.jpg?raw=true)
+![alt text](https://github.com/[schatterjee30]/[BFDAMs]/blob/[main]/Images/Pipeline.jpg)
 
 ## Usage
 

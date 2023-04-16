@@ -1,11 +1,9 @@
-README
-================
 
 # BFDAMs: Bayesian Functional Data Analysis over Dependent Regions and Its Application for Identification of Differentially Methylated Regions.
 
 # Methodological Pipeline
 
-<img src="C:/Users/suvchat/OneDrive - Indiana University/Current_Projects/BFDA/BFDAMs/Pipeline.jpg" width="700" align="center">
+![alt text](https://github.com/[schatterjee30]/[BFDAMs]/blob/[main]/image.jpg?raw=true)
 
 ## Usage
 

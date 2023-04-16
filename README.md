@@ -249,7 +249,7 @@ perform some downstream analysis then the user can do the following.
 
 ``` r
 output = BFDAM2[[1]]
-region.CpGs = output[output$window==4, ]
+region.CpGs = output[output$chr==12 & output$window==4, ]
 region.CpGs$CpGs
 ```
 

@@ -9,7 +9,7 @@ results found in our manuscript.
 
 # Methodological Pipeline
 
-<img src="C:/Users/suvchat/OneDrive - Indiana University/Current_Projects/BFDA/BFDAMs/Images/Pipeline.jpg" width="700" align="center">
+![alt text](https://github.com/schatterjee30/BFDAMs/blob/main/Images/Pipeline.jpg)
 
 ## Usage
 
@@ -189,7 +189,7 @@ print(plot.fittedCurves(beta.df = beta.df, chr.pos = chr.pos,
                         case.group = 'Tumor',chr=12, window.plot=4))
 ```
 
-![](BFDAM_readme_github_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![alt text](https://github.com/schatterjee30/BFDAMs/blob/main/Images/fitting_plot.png)
 
 **Understanding the output format**
 

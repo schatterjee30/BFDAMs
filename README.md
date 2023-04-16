@@ -183,7 +183,7 @@ print(plot.fittedCurves(beta.df = beta.df, chr.pos = chr.pos,
                         case.group = 'Tumor',chr=12, window.plot=4))
 ```
 
-<img src="C:/Users/suvchat/OneDrive - Indiana University/Current_Projects/BFDA/BFDAMs/fitting_plot.png" width="700" align="center">
+![alt text](https://github.com/schatterjee30/BFDAMs/blob/main/Images/fitting_plot.png)
 
 **Understanding the output format**
 

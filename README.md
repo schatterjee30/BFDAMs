@@ -1,5 +1,5 @@
 
-# Bayesian Functional Data Analysis over Dependent Regions and Its Application for Identification of Differentially Methylated Regions.
+# Bayesian Functional Data Analysis over Dependent Regions and Its Application for Identification of Differentially Methylated Regions
 
 This repository describes the implementation of our developed Bayesian
 functional data analysis model BFDAM2 for identifying differentially
@@ -237,7 +237,7 @@ output[, 1:5]
 **Extracting required CpG sites for downstream biological analysis**
 
 One of the key features of DMR analysis is to get a list of CpGs which
-are differentially methylated in given region and then to furthr
+are differentially methylated in given region and then to further
 investigate the charecteristics of these CpGs from a biological
 perspective. If the user is interested in performing downstream
 functional genomics analysis then the user can get the list of CpGs

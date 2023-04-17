@@ -78,14 +78,14 @@ reproducing this MWE.
 **A brief description of the example data**
 
 The example data is a subset of the real data used in the paper and can
-be found here. This example data contains the methylation values on
+be found (https://drive.google.com/drive/u/1/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD)[here] under the name "Luad_2015_Fleischer.RData". This example data contains the methylation values on
 chromosome 12 spanning 10000 bases up and downstream from the popular
 lung cancer gene KRAS.
 
 **Guide for loading in required data**
 
 For all the analysis shown below the user needs to input the following
-example data: From the “Data” folder please load the example data
+example data: From the “Example_Data” folder please load the example data
 (“LUAD2015_ExampleData.RData”) into your R environment. All the results
 and analysis shown below is based on this example data set. Note: Once
 the example data is loaded into the R environment the object will be

@@ -78,7 +78,7 @@ reproducing this MWE.
 **A brief description of the example data**
 
 The example data is a subset of the real data used in the paper and can
-be found [here]:https://drive.google.com/drive/u/1/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD under the name "Luad_2015_Fleischer.RData". This example data contains the methylation values on
+be found [here](https://drive.google.com/drive/u/1/folders/1YvzjHYM6mjNjjMGQi0pjlPN9C27aRHLD) under the name "Luad_2015_Fleischer.RData". This example data contains the methylation values on
 chromosome 12 spanning 10000 bases up and downstream from the popular
 lung cancer gene KRAS.
 
